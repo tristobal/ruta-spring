@@ -12,6 +12,7 @@
     <properties>
         <java.version>1.8</java.version>
         <swagger.version>2.3.1</swagger.version>
+        <log4j.version>2.8.2</log4j.version>
     </properties>
 
     <parent>
@@ -43,6 +44,16 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 
