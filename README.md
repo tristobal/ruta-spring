@@ -7,6 +7,7 @@ Utiliza lo siguiente:
 - Maven
 - Java 8
 - Actuator
+- Aspect
 - Swagger
 - Integración contínua con Travis CI
 - Despliegue automatizado en Heroku
