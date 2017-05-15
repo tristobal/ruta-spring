@@ -25,7 +25,7 @@ public class LoggingInfoAspect {
      * @throws Throwable
      */
     @Around("@annotation(LoggingInfo)")
-    public Object logExecutionTime(final ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object logMethodIO(final ProceedingJoinPoint joinPoint) throws Throwable {
         logger.info(getLog(IN, joinPoint));
         Object proceed = joinPoint.proceed();
         logger.info(getLog(OUT, joinPoint));
