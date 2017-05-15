@@ -1,14 +1,20 @@
 package cl.ido.ruta.aspect;
 
+import cl.ido.ruta.dummies.DummySignature;
+import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.when;
+import java.lang.reflect.Field;
+
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LoggingInfoAspectTest {
@@ -18,52 +24,33 @@ public class LoggingInfoAspectTest {
     @Mock
     private ProceedingJoinPoint proceedingJoinPoint;
 
-    @Test
-    public void shouldProceedExecution() throws Throwable {
-        aspect = new LoggingInfoAspect();
+    @Mock
+    Logger logger;
 
+    @Before
+    public void setUp() throws Throwable {
+        aspect = new LoggingInfoAspect();
         Signature dummySignature = new DummySignature();
         when(proceedingJoinPoint.getSignature()).thenReturn(dummySignature);
         when(proceedingJoinPoint.proceed()).thenReturn(new String("whatever"));
+    }
 
+    @Test
+    public void shouldProceedExecution() throws Throwable {
         Object obj = aspect.logMethodIO(proceedingJoinPoint);
         Assert.assertNotNull(obj);
     }
 
-}
+    @Test
+    public void shouldVerifyLogInvocation() throws Throwable {
+        Class<?> clazz = LoggingInfoAspect.class;
+        Object obj = clazz.newInstance();
+        Field field = obj.getClass().getDeclaredField("logger");
+        field.setAccessible(true);
+        field.set(obj, logger);
 
-/**
- * El propósito de esta clase para poder maquetear "getSignature()"
- */
-class DummySignature implements Signature {
-
-    @Override
-    public String toShortString() {
-        return "shortString";
-    }
-
-    @Override
-    public String toLongString() {
-        return "longString";
-    }
-
-    @Override
-    public String getName() {
-        return "name";
-    }
-
-    @Override
-    public int getModifiers() {
-        return 0;
-    }
-
-    @Override
-    public Class getDeclaringType() {
-        return null;
-    }
-
-    @Override
-    public String getDeclaringTypeName() {
-        return null;
+        aspect.logMethodIO(proceedingJoinPoint);
+        verify(logger, times(2)).info(anyString());
     }
 }
+
