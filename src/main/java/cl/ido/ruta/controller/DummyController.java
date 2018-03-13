@@ -19,9 +19,6 @@ public class DummyController {
     @Autowired
     private DummyService dummyService;
 
-    @Autowired
-    private RutaRepository rutaRepository;
-
     @RequestMapping(value = "/helloworld",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -33,13 +30,6 @@ public class DummyController {
     @LoggingInfo
     public Map<String, String> getHelloWorld() {
         return Collections.singletonMap("response", dummyService.getDummyMessage());
-    }
-
-
-    @GetMapping(value = "/place/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @LoggingInfo
-    public Place findOneByName(@PathVariable(value = "name") String name) {
-        return rutaRepository.findByName(name);
     }
 
 }
