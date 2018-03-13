@@ -10,5 +10,5 @@ public interface RutaRepository extends MongoRepository<Place, Long> {
 
     Place findByName(String name);
 
-    List<Place> findByLocationWithin(Box box);
+    List<Place> findByLocation_CoordinatesWithin(Box box);
 }

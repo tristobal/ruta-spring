@@ -5,6 +5,8 @@ import cl.ido.ruta.domain.Place;
 import cl.ido.ruta.repository.RutaRepository;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Box;
+import org.springframework.data.geo.Point;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,4 +45,18 @@ public class PlaceController {
     public List<Place> findAll() {
         return rutaRepository.findAll();
     }
+
+
+    @GetMapping(value = "/placebox", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(
+            value = "Retorna un lugar",
+            notes = "Devuelve un JSON con todos los Places",
+            response = List.class
+    )
+    @LoggingInfo
+    public List<Place> findByBox() {
+        Box box = new Box( new Point(-33.438119, -70.636826), new Point(-33.432787,-70.634188));
+        return rutaRepository.findByLocation_CoordinatesWithin(box);
+    }
+
 }
