@@ -6,3 +6,5 @@ deploy:
  api-key: 
   secure: $HEROKU_API_KEY
  app: ruta-rest-spring
+script:
+  - mvn clean package -DMONGODB_URI=$DMONGODB_URI
