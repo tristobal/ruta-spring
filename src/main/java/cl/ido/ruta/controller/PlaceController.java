@@ -47,15 +47,18 @@ public class PlaceController {
     }
 
 
-    @GetMapping(value = "/placebox", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/place/box/{xMin},{yMin},{xMax},{yMax}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(
-            value = "Retorna un lugar",
-            notes = "Devuelve un JSON con todos los Places",
+            value = "Retorna todos los lugares que calcen en las coordenadas dadas",
+            notes = "Devuelve un JSON con todos los Places que estén dentro del Box conformado por las coordenadas ingresadas",
             response = List.class
     )
     @LoggingInfo
-    public List<Place> findByBox() {
-        Box box = new Box( new Point(-33.438119, -70.636826), new Point(-33.432787,-70.634188));
+    public List<Place> findByBox(@PathVariable(value = "xMin") Double xMin,
+                                 @PathVariable(value = "yMin") Double yMin,
+                                 @PathVariable(value = "xMax") Double xMax,
+                                 @PathVariable(value = "yMax") Double yMax) {
+        Box box = new Box( new Point(xMin, yMin), new Point(xMax, yMax));
         return rutaRepository.findByLocation_CoordinatesWithin(box);
     }
 
