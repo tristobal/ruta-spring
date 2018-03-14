@@ -11,3 +11,9 @@ Utiliza lo siguiente:
 - Swagger
 - Integración contínua con Travis CI
 - Despliegue automatizado en Heroku
+
+Para ejecutar:
+
+```sh
+mvn spring-boot:run -DMONGODB_URI=mongodb://USER:PASSWORD@HOST:PORT/DATABASE
+```
