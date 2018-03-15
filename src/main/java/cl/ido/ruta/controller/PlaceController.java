@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Box;
 import org.springframework.data.geo.Point;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -62,4 +60,27 @@ public class PlaceController {
         return rutaRepository.findByLocation_CoordinatesWithin(box);
     }
 
+    @PostMapping(value = "/place",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(
+            value = "Crea un lugar",
+            notes = "Crea y devuelve un Place de acuerdo a los datos ingresados",
+            response = Place.class
+    )
+    @LoggingInfo
+    public Place createPlace(@RequestBody Place place) {
+        return rutaRepository.save(place);
+    }
+
+    @DeleteMapping(value = "/place/{id}")
+    @ApiOperation(
+            value = "Borra un lugar",
+            notes = "Elimina un Place de acuerdo a su ID",
+            response = Place.class
+    )
+    @LoggingInfo
+    public void deletePlace(@PathVariable(value = "id") String id) {
+        rutaRepository.delete(id);
+    }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface RutaRepository extends MongoRepository<Place, Long> {
+public interface RutaRepository extends MongoRepository<Place, String> {
 
     Place findByName(String name);
 
