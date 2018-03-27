@@ -1,7 +1,6 @@
 package cl.ido.ruta.domain;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "ruta")

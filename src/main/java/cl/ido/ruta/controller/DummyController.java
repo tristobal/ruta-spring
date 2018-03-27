@@ -1,15 +1,16 @@
 package cl.ido.ruta.controller;
 
 import cl.ido.ruta.aspect.LoggingInfo;
-import cl.ido.ruta.domain.Place;
-import cl.ido.ruta.repository.RutaRepository;
 import cl.ido.ruta.service.DummyService;
+import cl.ido.ruta.service.FarmaciasApiService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.websocket.server.PathParam;
 import java.util.Collections;
 import java.util.Map;
 
@@ -18,6 +19,9 @@ public class DummyController {
 
     @Autowired
     private DummyService dummyService;
+
+    @Autowired
+    private FarmaciasApiService farmaciasApiService;
 
     @RequestMapping(value = "/helloworld",
             method = RequestMethod.GET,
@@ -30,6 +34,12 @@ public class DummyController {
     @LoggingInfo
     public Map<String, String> getHelloWorld() {
         return Collections.singletonMap("response", dummyService.getDummyMessage());
+    }
+
+    @GetMapping(value = "/farmacias", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @LoggingInfo
+    public String getFarmacias() {
+        return farmaciasApiService.getFarmacias();
     }
 
 }
