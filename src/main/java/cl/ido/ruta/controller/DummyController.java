@@ -1,6 +1,7 @@
 package cl.ido.ruta.controller;
 
 import cl.ido.ruta.aspect.LoggingInfo;
+import cl.ido.ruta.domain.Farmacia;
 import cl.ido.ruta.service.DummyService;
 import cl.ido.ruta.service.FarmaciasApiService;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -38,7 +40,7 @@ public class DummyController {
 
     @GetMapping(value = "/farmacias", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @LoggingInfo
-    public String getFarmacias() {
+    public List<Farmacia> getFarmacias() {
         return farmaciasApiService.getFarmacias();
     }
 
