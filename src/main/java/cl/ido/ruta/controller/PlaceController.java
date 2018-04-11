@@ -2,6 +2,8 @@ package cl.ido.ruta.controller;
 
 import cl.ido.ruta.aspect.LoggingInfo;
 import cl.ido.ruta.domain.Place;
+import cl.ido.ruta.exception.PlaceNotFoundException;
+import cl.ido.ruta.exception.RutaException;
 import cl.ido.ruta.repository.RutaRepository;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +24,15 @@ public class PlaceController {
         this.rutaRepository = repo;
     }
 
-    @GetMapping(value = "/place/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/place/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(
             value = "Retorna un lugar",
             notes = "Devuelve un JSON con un Place como respuesta que coincida con el parámetro ingresado",
             response = Place.class
     )
     @LoggingInfo
-    public Place findOneByName(@PathVariable(value = "name") String name) {
-        return rutaRepository.findByName(name);
+    public Place findOneById(@PathVariable(value = "id") String id) {
+        return rutaRepository.findOne(id);
     }
 
     @GetMapping(value = "/place", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -82,5 +84,21 @@ public class PlaceController {
     @LoggingInfo
     public void deletePlace(@PathVariable(value = "id") String id) {
         rutaRepository.delete(id);
+    }
+
+    @PutMapping(value = "/place/{id}",
+        consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+        produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(
+            value = "Edita un lugar",
+            notes = "Actualiza un Place. Se envían todos sus datos en el body, incluído el ID",
+            response = Place.class
+    )
+    @LoggingInfo
+    public Place updatePlace(@PathVariable("id") String id, @RequestBody Place place) throws RutaException {
+        if (!rutaRepository.exists(id)) {
+            throw new PlaceNotFoundException("No existe el Place. Id = " + id);
+        }
+        return rutaRepository.save(place);
     }
 }
